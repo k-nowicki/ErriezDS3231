@@ -104,6 +104,31 @@ void setup()
 }
 ```
 
+**Alternative Initialization**
+
+If your platform has more than one I2C buses, You can pass pointer to particular Wire interface to intializer as in example below:
+
+```c++
+#include <Wire.h>
+#include <ErriezDS3231.h>
+
+// Create RTC object
+ErriezDS3231 rtc;
+
+void setup()
+{
+    // Initialize TWI with a 100kHz (default) or 400kHz clock
+    Wire1.begin();
+    Wire1.setClock(400000);
+    
+    // Initialize RTC
+    while (!rtc.begin(&Wire1)) {
+        // Error: Could not detect DS3231 RTC, retry after some time
+        delay(3000);
+    }
+}
+```
+
 **Check oscillator status at startup**
 
 ```c++
